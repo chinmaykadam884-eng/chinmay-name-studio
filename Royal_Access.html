@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Royal Secret</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;height:100vh;display:flex;justify-content:center;align-items:center;overflow:hidden;background:radial-gradient(circle at center,#211500 0%,#080808 48%,#000 100%);font-family:Georgia,serif;color:#fff;text-align:center}
+canvas{position:fixed;inset:0;z-index:0}
+.box{position:relative;z-index:2}
+.lock{font-size:68px;margin-bottom:18px;filter:drop-shadow(0 0 18px #d99b2b)}
+h2{font-size:21px;letter-spacing:3px;line-height:1.6}
+button{margin-top:22px;padding:14px 28px;border:1px solid #d6a94a;border-radius:30px;background:linear-gradient(135deg,#18120a,#3b2a0b);color:#f5d98a;font-size:17px;font-weight:bold;letter-spacing:1px;box-shadow:0 0 20px #8a641c;cursor:pointer}
+.name{display:none;font-family:Georgia,serif;font-size:clamp(42px,11vw,100px);font-weight:bold;letter-spacing:5px;white-space:nowrap;color:#fff4c7;transform:perspective(700px) rotateX(9deg);text-shadow:2px 2px 0 #8b641b,4px 4px 0 #4b350d,0 0 8px #fff,0 0 25px #d6a13a,0 0 55px #9b6a13;animation:royal 1.3s ease forwards,goldPulse 2.5s 1.3s infinite alternate}
+.show .lock,.show h2,.show button{display:none}.show .name{display:block}
+@keyframes royal{0%{opacity:0;transform:perspective(700px) rotateX(70deg) scale(.15);filter:blur(14px)}65%{opacity:1;transform:perspective(700px) rotateX(-5deg) scale(1.08)}100%{opacity:1;transform:perspective(700px) rotateX(9deg) scale(1);filter:blur(0)}}
+@keyframes goldPulse{from{text-shadow:2px 2px 0 #8b641b,4px 4px 0 #4b350d,0 0 12px #d6a13a,0 0 35px #9b6a13}to{text-shadow:2px 2px 0 #a9781e,4px 4px 0 #4b350d,0 0 18px #fff0a6,0 0 50px #d6a13a,0 0 85px #8a5b0b}}
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<div class="box" id="box">
+<div class="lock">🔒</div>
+<h2>ACCEPT THE REQUEST<br>TO UNLOCK MY NAME</h2>
+<button onclick="unlock()">UNLOCK ✦</button>
+<div class="name">♛ 𝑪𝑯𝑰𝑵𝑴𝑨𝒀 ♛</div>
+</div>
+<script>
+const box=document.getElementById("box"),canvas=document.getElementById("canvas"),ctx=canvas.getContext("2d");let particles=[];
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight}resize();addEventListener("resize",resize);
+function unlock(){box.classList.add("show");for(let i=0;i<180;i++)particles.push({x:innerWidth/2,y:innerHeight/2,vx:(Math.random()-.5)*11,vy:(Math.random()-.5)*11,life:120,size:Math.random()*3.5+1})}
+function animate(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach((p,i)=>{p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.vy*=.99;p.life--;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fillStyle="#d6a13a";ctx.shadowBlur=16;ctx.shadowColor="#d6a13a";ctx.fill();if(p.life<=0)particles.splice(i,1)});requestAnimationFrame(animate)}animate();
+</script>
+</body>
+</html>
